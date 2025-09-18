@@ -22,15 +22,16 @@ bool MakeMove(std::vector<std::vector<char>>& board,
               int row,
               int col,
               char player) {
-  if (row <= 0 || row > kBoardSize || col <= 0 || col > kBoardSize) {
+  if (row < 0 || row >= kBoardSize || col < 0 || col >= kBoardSize) {
     std::cerr << "Error: Move out of bounds!\n";
     return false;
   }
-  if (board[col][row] != ' ') {
+  //"oopsie they switched" ahhh error
+  if (board[row][col] != ' ') {
     std::cerr << "Error: Cell already occupied!\n";
     return false;
   }
-  board[col][row] = player;
+  board[row][col] = player;
   return true;
 }
 
@@ -38,20 +39,20 @@ char CheckWinner(const std::vector<std::vector<char>>& board) {
   for (unsigned int i = 0; i < kBoardSize; ++i) {
     if (board[i][0] == board[i][1] && board[i][1] == board[i][2] &&
         board[i][0] != ' ') {
-      return board[0][i];
+      return board[i][0];
     }
   }
 
   for (unsigned int i = 0; i < kBoardSize; ++i) {
     if (board[0][i] == board[1][i] && board[1][i] == board[2][i] &&
         board[0][i] != ' ') {
-      return board[i][0];
+      return board[0][i];
     }
   }
 
   if (board[0][2] == board[1][1] && board[1][1] == board[2][0] &&
       board[0][2] != ' ') {
-    return board[0][0];
+    return board[0][2];
   }
   return ' ';
 }
